@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodehelloworld
+spec:
+  selector:
+    app: nodehelloworld
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodehelloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodehelloworld
+  template:
+    metadata:
+      labels:
+        app: nodehelloworld
+    spec:
+      containers:
+        - name: nodehelloworld
+          image: deepcodr/node-hello-world:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
